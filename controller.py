@@ -1,40 +1,28 @@
-import logger
 import model
 import view
+import parser
 
 
-def input_integer(enter):
+def calculate():
+    input_expression()
+    result = model.calculate()
+    view.print_result(result)
+
+
+def input_expression():
     while True:
         try:
-            a = int(input(enter))
-            return a
-        except:
-            view.error_value()
+            expr_raw = view.get_expr()
+            model.expression = parser.parse(expr_raw)
+            break
+        except ValueError as err:
+            view.error_expression(err.args[0])
 
 
-def input_operation(enter):
+def is_quit():
     while True:
-        a = input(enter)
-        if a in ['+', '-', '*', '/', '=']:
-            return a
-        else:
-            view.error_value()
-
-
-def operation():
-    match model.ops:
-        case '+':
-            model.total = model.first + model.second
-        case '-':
-            model.total = model.first - model.second
-        case '*':
-            model.total = model.first * model.second
-        case '/':
-            while model.second == 0:
-                print('На ноль делить нельзя!')
-                model.init_second()
-            model.total = int(model.first / model.second)
-
-        case _:
-            view.error_value()
-    logger.logger(f'{model.first} {model.ops} {model.second} = {model.total}')
+        answer = view.get_is_quit()
+        if answer == "y":
+            return True
+        if answer == "n":
+            return False

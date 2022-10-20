@@ -1,11 +1,23 @@
 import logger
-import model
 
 
-def error_value():
-    logger.logger('Ошибка ввода данных')
-    return print('Ошибка ввода данных')
+def get_expr():
+    expr_raw = input("Введите выражение: ")
+    logger.logger(f"Введите выражение: {expr_raw}")
+    return expr_raw
 
 
-def print_total():
-    return print(f'Результат: {model.total}')
+def error_expression(err):
+    logger.logger(f"Ошибка: {err}")
+    print(f"Ошибка: {err}")
+
+
+def print_result(result):
+    logger.logger(f'Результат: {result}')
+    print(f'Результат: {result}')
+
+
+def get_is_quit():
+    answer = input("Закончить выполнение программы? (y/n): ")
+    logger.logger(f"Закончить выполнение программы? (y/n): {answer}")
+    return answer

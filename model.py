@@ -1,25 +1,38 @@
-import controller
-import view
+operations = {
+    "*": lambda x, y: int(x) * int(y),
+    "/": lambda x, y: int(x) / int(y),
+    "+": lambda x, y: int(x) + int(y),
+    "-": lambda x, y: int(x) - int(y)}
 
-first = 0
-second = 0
-ops = ''
-total = 0
-
-
-def init_first():
-    global first
-    first = controller.input_integer('Введите число: ')
+expression = []
 
 
-def init_second():
-    global second
-    second = controller.input_integer('Введите число: ')
+def delete_element(expr, i):
+    expr.pop(i + 1)
+    expr.pop(i)
 
 
-def init_ops():
-    global ops
-    ops = controller.input_operation('Введите операцию: ')
-    if ops == '=':
-        view.print_total()
+def make_operation(expr, i, operation):
+    if expr[i] == operation:
+        expr[i - 1] = operations.get(operation)(int(expr[i - 1]), int(expr[i + 1]))
+        delete_element(expr, i)
         return True
+
+
+def calculate():
+    global expression
+    while len(expression) > 1:
+        if '*' in expression or '/' in expression:
+            for i in range(len(expression)):
+                if make_operation(expression, i, '*'):
+                    break
+                if make_operation(expression, i, '/'):
+                    break
+
+        elif '+' in expression or '-' in expression:
+            for i in range(len(expression)):
+                if make_operation(expression, i, '+'):
+                    break
+                if make_operation(expression, i, '-'):
+                    break
+    return expression[0]
