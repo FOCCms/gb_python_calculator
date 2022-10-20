@@ -10,5 +10,3 @@ while True:
     controller.operation()
     view.print_total()
     model.first = model.total
-
-
